@@ -1,3 +1,5 @@
+import MathLib
+
 example (x q : Nat) : 37 * x + q = 37 * x + q := rfl
 
 example (x : ℝ) : x = x := rfl
@@ -37,3 +39,13 @@ example (P Q : Prop) : (P ∧ ¬ P) → Q := by
   intro a
   have := a.2 a.1
   contradiction
+
+
+example (G : Type) (hg : Group G) (a b c : G) : a * a⁻¹ * 1 * b = b * c * c⁻¹ := by
+  simp
+
+
+example (x : Nat) : x ≤ 1 + x := by
+  rw[le_iff_exists_add]
+  use 1
+  linarith
