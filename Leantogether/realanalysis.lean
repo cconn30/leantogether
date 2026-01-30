@@ -93,3 +93,27 @@ example (g : ℝ → ℝ) (h1 : ∀ x, g (x + 1) = g (x) + 3) (h2 : g (0) = 5) :
   rewrite [h3, h2] at h1
   ring_nf at h1
   exact h1
+
+
+example (p : ℝ → ℝ) (x : ℝ) (h1 : ∀ t, p (t) = t ^ 2 + 2 * t) (h2 : p (x) = 15) : ∃ b, x ^ 2 + 2 * x = b := by
+  specialize h1 x
+  rewrite [h2] at h1
+  use 15
+  rewrite [h1]
+  rfl
+
+
+
+-- Newton's Computation of π
+
+def SeqLim (a : ℕ → ℝ) (L : ℝ) : Prop := ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, |a n - L| < ε
+
+theorem ConstLim (a : ℕ → ℝ) (L : ℝ) (a_const : ∀ n, a n = L) : SeqLim a L := by
+  change ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, |a n - L| < ε
+  intro ε hε
+  use 0
+  intro n hn
+  rewrite [a_const]
+  ring_nf
+  norm_num
+  apply hε
